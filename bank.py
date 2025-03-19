@@ -1,15 +1,73 @@
-import os
-from dotenv import load_dotenv
 import mysql.connector
+from dotenv import load_dotenv
+import os
+
 
 load_dotenv()
+
+
 db_host = os.getenv("DB_HOST")
 db_user = os.getenv("DB_USER")
 db_password = os.getenv("DB_PASSWORD")
+# db_database = os.getenv("DB_DATABASE")
+
 
 mydb = mysql.connector.connect(
     host=db_host,
     user=db_user,
     password=db_password,
-    database="bank"
 )
+
+cursor = mydb.cursor()
+
+cursor.execute("CREATE DATABASE IF NOT EXISTS bank")
+cursor.execute("USE bank") 
+
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS user (
+    id_user INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    fname VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS account (
+    id_account INT AUTO_INCREMENT PRIMARY KEY,
+    amount INT NOT NULL,
+    id_user INT,
+    FOREIGN KEY (id_user) REFERENCES user (id_user) ON DELETE CASCADE
+);
+""")
+
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS transaction (
+    id_transaction INT AUTO_INCREMENT PRIMARY KEY,
+    description VARCHAR(200) NOT NULL,
+    amount INT NOT NULL,
+    date DATE NOT NULL,
+    type ENUM('credit', 'debit') NOT NULL,
+    account_id INT NOT NULL,
+    FOREIGN KEY (account_id) REFERENCES account(id_account) ON DELETE CASCADE
+);
+""")
+
+
+# cursor.execute("""
+# DESC user;
+# """)
+# res = cursor.fetchall()
+# for i in res :
+    
+#     print (i)
+
+
+mydb.commit()
+cursor.close()
+mydb.close()
+
+print("Base de données et tables créées avec succès.")
