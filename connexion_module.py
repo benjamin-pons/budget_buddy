@@ -72,19 +72,32 @@ class ConnexionModule:
         self.cursor.execute(query, values)
         self.conn.commit()
         print("Utilisateur créé")
+
+    def delete_user(self, id_user) :
+        query = "DELETE FROM user WHERE id_user = %s"
+        self.cursor.execute(query, (id_user,))
+        self.conn.commit()
+        print("compte utlisateur supprimé.")
         
 
     
 
 
-# Entrées utilisateur
+
 email = "benjamin@exemple.fr"
 mot_de_passe = "Azerty/pp1"
 name = "nam"
 fname = "fname"
 
+
 conn = ConnexionModule()
-conn.create_user(email, mot_de_passe, name, fname)
+
+
+# conn.create_user(email, mot_de_passe, name, fname)
+
+
+user_delete = 1
+conn.delete_user(user_delete)
 
 # if conn.check_user(email, mot_de_passe):
 #     print("Connexion réussie !")

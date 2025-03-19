@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS user (
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS account (
     id_account INT AUTO_INCREMENT PRIMARY KEY,
+    name_account VARCHAR(50),
     amount INT NOT NULL,
     id_user INT,
     FOREIGN KEY (id_user) REFERENCES user (id_user) ON DELETE CASCADE
