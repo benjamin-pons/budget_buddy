@@ -47,11 +47,11 @@ class ConnexionModule:
                 else:
                     return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
             else:
-                return False 
-
+                return False
+            
         except mysql.connector.Error as err:
-            print(f"Erreur lors de la requête SQL : {err}")
-            return False
+            print(f"Erreur : {err}")
+            self.conn = None
         
     def create_user(self, email ,password, name, fname):
         if len(password) < 10 :
@@ -93,11 +93,11 @@ fname = "fname"
 conn = ConnexionModule()
 
 
-# conn.create_user(email, mot_de_passe, name, fname)
+conn.create_user(email, mot_de_passe, name, fname)
 
 
 user_delete = 1
-conn.delete_user(user_delete)
+# conn.delete_user(user_delete)
 
 # if conn.check_user(email, mot_de_passe):
 #     print("Connexion réussie !")

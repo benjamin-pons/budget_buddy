@@ -24,7 +24,7 @@ class Account():
             self.conn = None
 
     def create_account(self,name_account):
-        query = "INSERT INTO account (name_account, amount)VALUES (%s, %s)"
+        query = "INSERT INTO account (name_account, balance)VALUES (%s, %s)"
         values = (name_account, 0)
         self.cursor.execute(query, values)
         self.conn.commit()
@@ -37,8 +37,8 @@ class Account():
         print("compte supprimé.")
 
 account = Account()
-account_name = "benj"
+account_name = "JUL"
 id_account = 3
 
-account.delete_account(id_account)
-# account.create_account(account_name)
+# account.delete_account(id_account)
+account.create_account(account_name)

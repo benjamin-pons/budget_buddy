@@ -38,7 +38,7 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS account (
     id_account INT AUTO_INCREMENT PRIMARY KEY,
     name_account VARCHAR(50),
-    amount INT NOT NULL,
+    balance INT NOT NULL,
     id_user INT,
     FOREIGN KEY (id_user) REFERENCES user (id_user) ON DELETE CASCADE
 );
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS transaction (
     description VARCHAR(200) NOT NULL,
     amount INT NOT NULL,
     date DATE NOT NULL,
-    type ENUM('credit', 'debit') NOT NULL,
+    type ENUM('deposit', 'withdrawal', 'transfer') NOT NULL,
     account_id INT NOT NULL,
     FOREIGN KEY (account_id) REFERENCES account(id_account) ON DELETE CASCADE
 );
