@@ -12,4 +12,5 @@ class TextBox:
     
     def get_text(self) :
         content = self.input.get()
+        return content
 

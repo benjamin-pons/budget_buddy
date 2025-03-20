@@ -76,18 +76,3 @@ class ConnexionModule:
         self.cursor.execute(query, (id_user,))
         self.conn.commit()
         print("Compte utilisateur supprimé.")
-
-
-email = "benjamin@exemple.fr"
-mot_de_passe = "Azerty/pp1"
-name = "nam"
-fname = "fname"
-
-conn = ConnexionModule()
-# conn.create_user(email, mot_de_passe, name, fname)
-
-
-# if conn.check_user(email, mot_de_passe):
-#     print("Connexion réussie !")
-# else:
-#     print("Échec de l'authentification.")
