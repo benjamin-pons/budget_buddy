@@ -9,7 +9,7 @@ load_dotenv()
 db_host = os.getenv("DB_HOST")
 db_user = os.getenv("DB_USER")
 db_password = os.getenv("DB_PASSWORD")
-# db_database = os.getenv("DB_DATABASE")
+db_database = os.getenv("DB_DATABASE")
 
 
 mydb = mysql.connector.connect(
@@ -23,6 +23,17 @@ cursor = mydb.cursor()
 cursor.execute("CREATE DATABASE IF NOT EXISTS bank")
 cursor.execute("USE bank") 
 
+cursor.close()
+mydb.close()
+
+mydb = mysql.connector.connect(
+    host=db_host,
+    user=db_user,
+    password=db_password,
+    database="bank"
+)
+
+cursor = mydb.cursor()
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS user (
