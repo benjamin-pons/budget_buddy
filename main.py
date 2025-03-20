@@ -1,6 +1,6 @@
 from bank import *
 from connexion_module import *
-from create_account import *
+from account import *
 
 email = "benjamin@exemple.fr"
 mot_de_passe = "$2b$12$3h21KbJZ4ZZ7H2d7PLFlFuA7AeJZ8uVO9NH87lZDXFjhuC7sznJZK"
