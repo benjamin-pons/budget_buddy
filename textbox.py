@@ -1,7 +1,7 @@
 import customtkinter
 
 class TextBox:
-    def __init__(self, parent, label_text, button_text, row) :
+    def __init__(self, parent, label_text, row) :
         self.parent = parent
 
         self.label_instruction = customtkinter.CTkLabel(parent, text=label_text)
