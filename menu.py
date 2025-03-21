@@ -2,6 +2,7 @@ import customtkinter
 import re
 from textbox import TextBox
 from connexion_module import ConnexionModule
+from home import HomeFrame
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -22,6 +23,8 @@ class App(customtkinter.CTk):
             self.signup_frame.grid_forget()
         if hasattr(self, "login_frame"):
             self.login_frame.grid_forget()
+        if hasattr(self, "home_frame"):
+            self.home_frame.grid_forget()
 
         self.main_menu.grid(row=0, column=1, sticky="ew")
 
@@ -36,6 +39,17 @@ class App(customtkinter.CTk):
         self.main_menu.grid_forget()
         self.login_frame = LoginFrame(self)
         self.login_frame.grid(row=0, column=1, sticky="ew")
+    
+    def show_home(self):
+        """Open home after connection"""
+        self.main_menu.grid_forget()
+        if hasattr(self, "signup_frame"):
+            self.signup_frame.grid_forget()
+        if hasattr(self, "login_frame"):
+            self.login_frame.grid_forget()
+
+        self.home_frame = HomeFrame(self)
+        self.home_frame.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
 
 
 class MainMenu(customtkinter.CTkFrame):
@@ -130,6 +144,8 @@ class LoginFrame(customtkinter.CTkFrame):
         conn_module = ConnexionModule()        
         if conn_module.check_user(result[0], result[1]) :
             print("ACCES AUTORISE")
+            self.master.show_home()
+
         else :
             print("ACCES REFUSE")
             self.error_message.configure(text="Mot de passe/Email invalide")

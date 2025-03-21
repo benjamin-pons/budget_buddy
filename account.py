@@ -37,9 +37,6 @@ class Account():
         print("compte supprimé.")
 
 account = Account()
-account_name = "JUL"
-id_account = 3
+account_name = "Benj"
 
-# account.delete_account(id_account)
-# 
 account.create_account(account_name)
