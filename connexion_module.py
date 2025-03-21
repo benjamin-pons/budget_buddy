@@ -37,11 +37,9 @@ class ConnexionModule:
             result = self.cursor.fetchone()
 
             if result:
-                hashed_password= result [0]
-
+                hashed_password = result [0]
                 if isinstance(hashed_password, str):
                     hashed_password = hashed_password.encode('utf-8')
-                
                 return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
             else:
                 return False
@@ -49,6 +47,24 @@ class ConnexionModule:
         except mysql.connector.Error as err:
             print(f"Erreur : {err}")
             return False
+    
+    def get_user_id(self, email) :
+        query = "SELECT id_user FROM user WHERE email = %s"
+        self.cursor.execute(query, (email,))
+        result = self.cursor.fetchone()
+        return result[0]
+
+    def get_user_info(self, user_id) :
+        query = "SELECT id_user, fname, name, email FROM user WHERE id_user = %s"
+        self.cursor.execute(query, (user_id,))
+        result = self.cursor.fetchone()
+        result_dict = {
+            "user_id" : result[0],
+            "fname" : result[1],
+            "name" : result[2],
+            "email" : result[3]
+        }
+        return result_dict
         
     def create_user(self, email, password, name, fname):
         if len(password) < 10:

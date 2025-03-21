@@ -55,7 +55,6 @@ class Transaction():
         old_balance = self.cursor.fetchone()
 
         try:
-
             new_balance = old_balance[0] - amount
 
             # Update new balance in account
@@ -80,7 +79,7 @@ class Transaction():
 
 
     
-transaction = Transaction()
+# transaction = Transaction()
 # transaction.deposit("France Travail", 552, "2025-04-03", 1)
 # transaction.withdrawal("France Travail", 500, "2025-04-04", 1)
-transaction.transfer("Velodrome", 200, "2025-04-04", 1, 2)
+# transaction.transfer("Velodrome", 200, "2025-04-04", 1, 2)

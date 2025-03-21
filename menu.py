@@ -40,7 +40,7 @@ class App(customtkinter.CTk):
         self.login_frame = LoginFrame(self)
         self.login_frame.grid(row=0, column=1, sticky="ew")
     
-    def show_home(self):
+    def show_home(self, user_id):
         """Open home after connection"""
         self.main_menu.grid_forget()
         if hasattr(self, "signup_frame"):
@@ -48,7 +48,7 @@ class App(customtkinter.CTk):
         if hasattr(self, "login_frame"):
             self.login_frame.grid_forget()
 
-        self.home_frame = HomeFrame(self)
+        self.home_frame = HomeFrame(self, user_id)
         self.home_frame.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
 
 
@@ -144,8 +144,7 @@ class LoginFrame(customtkinter.CTkFrame):
         conn_module = ConnexionModule()        
         if conn_module.check_user(result[0], result[1]) :
             print("ACCES AUTORISE")
-            self.master.show_home()
-
+            self.master.show_home(conn_module.get_user_id(result[0]))
         else :
             print("ACCES REFUSE")
             self.error_message.configure(text="Mot de passe/Email invalide")
