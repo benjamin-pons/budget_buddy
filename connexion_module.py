@@ -64,6 +64,7 @@ class ConnexionModule:
             "name" : result[2],
             "email" : result[3]
         }
+        
         return result_dict
         
     def create_user(self, email, password, name, fname):
@@ -92,3 +93,18 @@ class ConnexionModule:
         self.cursor.execute(query, (id_user,))
         self.conn.commit()
         print("Compte utilisateur supprimé.")
+
+    
+    def get_connection(self):
+        """Return a new MySQL connection"""
+        try:
+            conn = mysql.connector.connect(
+                host=self.db_host,
+                user=self.db_user,
+                password=self.db_password,
+                database=self.db_database
+            )
+            return conn
+        except mysql.connector.Error as err:
+            print(f"Erreur lors de la connexion à la base de données : {err}")
+            return None

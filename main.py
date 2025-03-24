@@ -1,4 +1,4 @@
-from bank import *
+import bank
 from connexion_module import *
 from account import *
 

@@ -71,15 +71,6 @@ CREATE TABLE IF NOT EXISTS transaction (
 """)
 
 
-# cursor.execute("""
-# DESC user;
-# """)
-# res = cursor.fetchall()
-# for i in res :
-    
-#     print (i)
-
-
 mydb.commit()
 cursor.close()
 mydb.close()

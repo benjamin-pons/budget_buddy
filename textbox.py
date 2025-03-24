@@ -1,6 +1,6 @@
 import customtkinter
 
-class TextBox:
+class TextBox():
     def __init__(self, parent, label_text, row) :
         self.parent = parent
 
@@ -14,3 +14,16 @@ class TextBox:
         content = self.input.get()
         return content
 
+class SmallTextBox():
+    def __init__(self, parent, label_text, row) :
+        self.parent = parent
+
+        self.label_instruction = customtkinter.CTkLabel(parent, text=label_text)
+        self.label_instruction.grid(row=row-1, column=0, padx=5, pady=5, sticky="w")
+
+        self.input = customtkinter.CTkEntry(parent, width=200)
+        self.input.grid(row = row, column=0, padx=10, pady=5)
+    
+    def get_text(self) :
+        content = self.input.get()
+        return content

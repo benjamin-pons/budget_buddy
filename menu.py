@@ -140,11 +140,12 @@ class LoginFrame(customtkinter.CTkFrame):
             self.textbox_email.get_text(),
             self.textbox_password.get_text()
         ]
-
+        
         conn_module = ConnexionModule()        
         if conn_module.check_user(result[0], result[1]) :
             print("ACCES AUTORISE")
-            self.master.show_home(conn_module.get_user_id(result[0]))
+            user_id = conn_module.get_user_id(result[0])
+            self.master.show_home(user_id)
         else :
             print("ACCES REFUSE")
             self.error_message.configure(text="Mot de passe/Email invalide")
