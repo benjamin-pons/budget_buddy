@@ -1,7 +1,7 @@
 import mysql.connector
 from dotenv import load_dotenv
 import os
-
+from connexion_module import ConnexionModule
 
 load_dotenv()
 
@@ -55,7 +55,7 @@ class Transaction():
         old_balance = self.cursor.fetchone()
 
         try:
-            new_balance = old_balance[0] - amount
+            new_balance = old_balance[0] + amount
 
             # Update new balance in account
             query = "UPDATE account SET balance = %s WHERE id_account = %s"
@@ -75,6 +75,31 @@ class Transaction():
     def transfer(self, description, amount, date, sender_account, recipient_account):
         self.withdrawal(description, amount, date, sender_account)
         self.deposit(description, amount, date, recipient_account)
+    
+    def get_all_transactions(self, account_id) :
+        conn = ConnexionModule().get_connection()
+        cursor = conn.cursor()
+
+        query = "SELECT id_transaction, description, amount, date, type, account_id FROM transaction WHERE account_id = %s"
+        values = (account_id,)
+        self.cursor.execute(query, values)
+        result = self.cursor.fetchall()
+
+        transaction_list = []
+        for transaction in result :
+            transaction_list.append({
+                "id_transaction" :transaction[0],
+                "description" : transaction[1],
+                "amount" : transaction[2],
+                "date" : transaction[3],
+                "type" : transaction[4],
+                "account_id" : transaction[5]
+            })
+
+        cursor.close()
+        conn.close()
+
+        return transaction_list
 
 
 

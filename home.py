@@ -3,6 +3,7 @@ import mysql.connector
 from textbox import TextBox, SmallTextBox
 from account import Account
 from connexion_module import ConnexionModule
+from account_details import TransactionFrame
 
 class HomeFrame(customtkinter.CTkFrame):
     def __init__(self, master, user_id):
@@ -25,17 +26,31 @@ class HomeFrame(customtkinter.CTkFrame):
 
         self.logout_button = customtkinter.CTkButton(self, text="Déconnexion", command=master.show_main_menu)
         self.logout_button.grid(row=2, column=0 , pady=10, padx=20, ipadx=50)
+
     
+
     def refresh_accounts_list(self) :
         self.account_select.refresh_accounts()
 
-        
+    def show_transaction_frame(self, account_id, user_id):
+        for widget in self.winfo_children():
+            widget.grid_forget()
+
+        transaction_frame = TransactionFrame(self, account_id, user_id, self.return_to_home)
+        transaction_frame.grid(row=0, column=0, sticky="nsew")
+
+    def return_to_home(self):
+        for widget in self.winfo_children():
+            widget.grid_forget()
+
+        self.grid(row=0, column=0, sticky="nsew")
 
 
 class AccountSelect(customtkinter.CTkScrollableFrame):
     def __init__(self, master, user_id) :
         super().__init__(master, orientation="horizontal")
         self.grid_columnconfigure(0, weight=1)
+        self.master = master
 
         self.user_id = user_id
         self.account_obj = Account()
@@ -51,30 +66,45 @@ class AccountSelect(customtkinter.CTkScrollableFrame):
         new_account.grid(row=0, column=0, padx=10, pady=(10, 20))
 
         account_list = self.account_obj.get_all_accounts_info(self.user_id)
-        print("BOOOOOOOOOOOOOOOO")
-        print(len(account_list))
 
         for index, account in enumerate(account_list):
-            account_frame = AccountFrame(self, account["name_account"], account["balance"])
+            account_frame = AccountFrame(self, account["name_account"], account["balance"], account["id_account"], account["id_user"])
             account_frame.grid_propagate(False)
             account_frame.grid(row=0, column=index + 1, padx=10)
+    
+    def show_transaction_frame(self, account_id, user_id) :
+        self.master.show_transaction_frame(account_id, user_id)
 
 
-class AccountFrame(customtkinter.CTkFrame) :
-    def __init__(self, master, name, balance) :
+        
+
+
+class AccountFrame(customtkinter.CTkFrame):
+    def __init__(self, master, name, balance, account_id, user_id):
         super().__init__(master)
+        self.master = master
+        self.account_id = account_id
+        self.user_id = user_id
+
         self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure((0,1), weight=1)
+        self.grid_rowconfigure((0, 1, 2), weight=1)
 
         text_balance = str(balance) + " €"
-        account_name = customtkinter.CTkLabel(self, text=name, font = ("Arial", 30))
+        account_name = customtkinter.CTkLabel(self, text=name, font=("Arial", 25))
         account_name.grid(row=0, column=0)
 
-        account_balance = customtkinter.CTkLabel(self, text=text_balance, font = ("Arial", 30))
+        account_balance = customtkinter.CTkLabel(self, text=text_balance, font=("Arial", 30))
         account_balance.grid(row=1, column=0)
-    
-    
 
+        open_account_button = customtkinter.CTkButton(self, text="Séléctionner", font=("Arial", 16, "bold"), command=self.open_account_details)
+        open_account_button.grid(row=2, column=0)
+
+    def open_account_details(self):
+        
+        self.master.show_transaction_frame(self.account_id, self.user_id)
+
+
+    
 
 class CreateAccountFrame(customtkinter.CTkFrame) :
     def __init__(self, master, user_id, refresh_callback):
